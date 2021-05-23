@@ -20,8 +20,8 @@ class Edition extends React.Component  {
   }
 
   async fetchHolders(){
-      const holders_url = "https://api.better-call.dev/v1/contract/mainnet/KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton/tokens/holders?token_id="
-      const transfers_url = 'https://api.better-call.dev/v1/tokens/mainnet/transfers/'+ process.env.REACT_APP_WALLET + '?contracts=KT1RJ6PbjHpwc3M5rw5s2Nbmefwbuwbdxton&token_id='
+      const holders_url = "https://api.better-call.dev/v1/contract/mainnet/" + this.props.contract_id + "/tokens/holders?token_id="
+      const transfers_url = "https://api.better-call.dev/v1/tokens/mainnet/transfers/"+ process.env.REACT_APP_WALLET + "?contracts=" + this.props.contract_id + "&token_id="
 
       try {
         const resp = await axios.get(holders_url + this.props.token_id)
@@ -34,7 +34,6 @@ class Edition extends React.Component  {
 
         const transfers_resp = await axios.get(transfers_url + this.props.token_id)
         const transfers = transfers_resp.data
-        console.log(transfers_resp)
 
         this.setState({availables, edition, editions_total, transfers, isLoading: false})     
       } catch (error) {
@@ -80,6 +79,7 @@ class Edition extends React.Component  {
 
 Edition.propTypes = {
   token_id: PropTypes.number.isRequired,
+  contract_id: PropTypes.number.isRequired,
 };
 
 

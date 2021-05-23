@@ -40,7 +40,7 @@ class App extends React.Component  {
       )
     }else {
       return (
-        <div className="App" style={{display: "flex",marginTop: '10vh', marginBottom: '10vh', justifyContent:"center", minHeight: "100vh"}}>
+        <div className="App" style={{display: "flex",marginTop: '10vh', marginBottom: '10vh', justifyContent:"center", minHeight: "100vh", flexWrap: "wrap"}}>
           {artworks && artworks.map((artwork, index) => {
             const img_uri = /ipfs:\/\/(.*)/.exec(artwork.artifact_uri)[1]
             return(
@@ -49,7 +49,7 @@ class App extends React.Component  {
                 <Artist artist_id={artwork.creators[0]}/>
                 <p>{artwork.name}</p>
                 <p>{artwork.description}</p>
-                <Edition token_id={artwork.token_id}/>
+                <Edition token_id={artwork.token_id} contract_id={artwork.contract}/>
               </div>
             ) 
               
