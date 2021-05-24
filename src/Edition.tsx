@@ -94,7 +94,6 @@ class Edition extends React.Component<Props, State> {
           </p>
           {show_more && (
             <span style={{ fontSize: '0.8em' }}>
-              <p>Editions still available: {availables[1]} </p>
               <div style={{ marginTop: 10 }}>
                 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _<p>Transaction</p>
                 {transfers.map((transfer, index) => {
@@ -107,6 +106,7 @@ class Edition extends React.Component<Props, State> {
                   );
                 })}
               </div>
+              <p style={{ marginTop: 20 }}>Editions available: {availables[1]} </p>
             </span>
           )}
         </span>

@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import axios from 'axios';
+import bas_jan from './assets/bas_jan.jpg';
 
 interface Operation {
   allocationFee: number;
@@ -69,17 +70,26 @@ class Operation extends React.Component<Props, State> {
           {operations.map((operation, index) => {
             const amount_xtz = operation.amount / 1000000;
             const amount_eur = amount_xtz * operation.quote.eur;
+            const sender =
+              operation.sender.address === process.env.REACT_APP_WALLET ? (
+                <img src={bas_jan} width="30px" />
+              ) : operation.sender.alias ? (
+                operation.sender.alias
+              ) : (
+                operation.sender.address
+              );
             return (
-              <span key={index} style={index === 0 ? { fontWeight: 800 } : {}}>
+              <span key={index}>
+                <span style={index === 0 ? { fontWeight: 800 } : {}}>
+                  <p>
+                    {sender} {'>'} {operation.target.alias}
+                  </p>
+                  <p>
+                    {amount_xtz}ꜩ - {amount_eur.toFixed(2)}€ (fees: {operation.bakerFee / 1000000}ꜩ)
+                  </p>
+                  <p>Status: {operation.status}</p>
+                </span>
                 _ _ _ _ _
-                <p>
-                  {operation.sender.alias ? operation.sender.alias : operation.sender.address} {'>'}{' '}
-                  {operation.target.alias}
-                </p>
-                <p>
-                  {amount_xtz}ꜩ - {amount_eur.toFixed(2)}€ (fees: {operation.bakerFee / 1000000}ꜩ)
-                </p>
-                <p>Status: {operation.status}</p>
               </span>
             );
           })}
