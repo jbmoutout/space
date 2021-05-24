@@ -2,13 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import FullScreen from './FullScreen';
 import reportWebVitals from './reportWebVitals';
 
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
 ReactDOM.render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>,
-    document.getElementById('root'),
+  <React.StrictMode>
+    <Router>
+      <Switch>
+        <Route path="/:id">
+          <FullScreen />
+        </Route>
+        <Route path="/">
+          <App />
+        </Route>
+      </Switch>
+    </Router>
+  </React.StrictMode>,
+  document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,3 +1,8 @@
+/* HARDCODED FOR #35595 */
+#img:fullscreen {
+  background-color: rgb(17, 17, 17);
+}
+
 .App {
   text-align: center;
 }
