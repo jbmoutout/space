@@ -4,7 +4,7 @@ import './App.css';
 import axios from 'axios';
 
 type Props = {
-  artist_id: string;
+  token_id: number;
 };
 
 type State = {
@@ -26,10 +26,13 @@ class Artist extends React.Component<Props, State> {
   }
 
   async fetchArtist(): Promise<void> {
+    const bigmap_url = 'https://api.tzstats.com/explorer/bigmap/522/';
     const artist_url = 'https://api.tzkt.io/v1/accounts/';
     try {
-      const artist = await axios.get(artist_url + this.props.artist_id);
-      const artist_name = artist.data.alias;
+      const bigmap = await axios.get(bigmap_url + this.props.token_id);
+      const artist_wallet = bigmap && bigmap.data.value.issuer;
+      const artist_resp = await axios.get(artist_url + artist_wallet);
+      const artist_name = artist_resp.data.alias;
       this.setState({ artist_name: artist_name, isLoading: false });
     } catch (error) {
       console.error(error);

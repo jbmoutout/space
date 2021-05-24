@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import Artist from './Artist';
 import axios from 'axios';
 
 interface Operation {
@@ -22,6 +21,7 @@ interface Operation {
   storageFee: number;
   storageLimit: number;
   storageUsed: number;
+  target: { [key: string]: string };
   timestamp: string;
   type: string;
 }
@@ -32,7 +32,7 @@ type Props = {
 
 type State = {
   isLoading: boolean;
-  operation: Operation | null;
+  operations: Array<Operation> | null;
 };
 
 class Operation extends React.Component<Props, State> {
@@ -40,7 +40,7 @@ class Operation extends React.Component<Props, State> {
     super(props);
     this.state = {
       isLoading: true,
-      operation: null,
+      operations: null,
     };
   }
 
@@ -52,32 +52,40 @@ class Operation extends React.Component<Props, State> {
     const ops_url = 'https://api.tzkt.io/v1/operations/';
     try {
       const resp = await axios.get(ops_url + this.props.hash + '?quote=eur');
-      const operation = resp.data[0];
-      this.setState({ operation, isLoading: false });
+      const operations = resp.data;
+      this.setState({ operations, isLoading: false });
     } catch (error) {
       console.error(error);
     }
   }
 
   render(): JSX.Element | null {
-    const { operation, isLoading } = this.state;
-    if (isLoading) {
+    const { operations, isLoading } = this.state;
+    if (isLoading || !operations || operations.length < 1) {
       return null;
-    }
-    if (operation) {
-      const amount_xtz = operation.amount / 1000000;
-      const amount_eur = amount_xtz * operation.quote.eur;
+    } else {
       return (
         <span>
-          <p>
-            {amount_xtz}ꜩ - {amount_eur.toFixed(2)}€ (fees: {operation.bakerFee / 1000000}ꜩ)
-          </p>
-          <p>From:</p> <Artist artist_id={operation.diffs[0].content.value.issuer} />
-          <p>Status: {operation.status}</p>
+          {operations.map((operation, index) => {
+            const amount_xtz = operation.amount / 1000000;
+            const amount_eur = amount_xtz * operation.quote.eur;
+            return (
+              <span key={index} style={index === 0 ? { fontWeight: 800 } : {}}>
+                _ _ _ _ _
+                <p>
+                  {operation.sender.alias ? operation.sender.alias : operation.sender.address} {'>'}{' '}
+                  {operation.target.alias}
+                </p>
+                <p>
+                  {amount_xtz}ꜩ - {amount_eur.toFixed(2)}€ (fees: {operation.bakerFee / 1000000}ꜩ)
+                </p>
+                <p>Status: {operation.status}</p>
+              </span>
+            );
+          })}
         </span>
       );
     }
-    return null;
   }
 }
 

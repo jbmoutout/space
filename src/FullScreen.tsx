@@ -34,7 +34,6 @@ class FullScreen extends React.Component<Props, State> {
       const uri = uri_parser ? 'https://ipfs.io/ipfs/' + uri_parser[1] : '';
       this.setState({ uri: uri ? uri : undefined });
       document.getElementById('img')?.requestFullscreen();
-      console.log(document.getElementById('#img'));
     } catch (error) {
       console.error(error);
     }

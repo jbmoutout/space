@@ -43,9 +43,7 @@ class App extends React.Component<Props, State> {
 
   async fetchArtworks(): Promise<void> {
     const wallet_url =
-      'https://api.better-call.dev/v1/account/mainnet/' +
-      process.env.REACT_APP_WALLET +
-      '/token_balances';
+      'https://api.better-call.dev/v1/account/mainnet/' + process.env.REACT_APP_WALLET + '/token_balances';
     try {
       const resp = await axios.get(wallet_url);
       const artworks = resp.data.balances.filter((a: Artwork) => a.symbol === 'OBJKT');
@@ -77,12 +75,9 @@ class App extends React.Component<Props, State> {
               const uri_parser = /ipfs:\/\/(.*)/.exec(artwork.artifact_uri);
               const img_uri = uri_parser ? 'https://ipfs.io/ipfs/' + uri_parser[1] : '';
               return (
-                <div
-                  key={index}
-                  style={{ maxWidth: '500px', margin: '2em', textAlign: 'left' }}
-                >
+                <div key={index} style={{ maxWidth: '500px', margin: '2em', textAlign: 'left' }}>
                   <img src={img_uri} width="100%" />
-                  <Artist artist_id={artwork.creators[0]} />
+                  <Artist token_id={artwork.token_id} />
                   <p>{artwork.name}</p>
                   <p>{artwork.description}</p>
                   <a

@@ -43,7 +43,9 @@ class Edition extends React.Component<Props, State> {
 
   async fetchHolders(): Promise<void> {
     const holders_url =
-      'https://api.better-call.dev/v1/contract/mainnet/' + this.props.contract_id + '/tokens/holders?token_id=';
+      'https://api.better-call.dev/v1/contract/mainnet/' +
+      this.props.contract_id +
+      '/tokens/holders?token_id=';
     const transfers_url =
       'https://api.better-call.dev/v1/tokens/mainnet/transfers/' +
       process.env.REACT_APP_WALLET +
@@ -54,7 +56,10 @@ class Edition extends React.Component<Props, State> {
     try {
       const resp = await axios.get(holders_url + this.props.token_id);
       const holders: { [key: string]: string } = resp.data;
-      const reduced_holder: Array<[string, number]> = Object.entries(holders).map((a) => [a[0], parseInt(a[1])]);
+      const reduced_holder: Array<[string, number]> = Object.entries(holders).map((a) => [
+        a[0],
+        parseInt(a[1]),
+      ]);
       const editions_total = reduced_holder.map((a) => a[1]).reduce((a, b) => a + b);
       const edition_index = reduced_holder
         .map((a) => a[0])
@@ -97,7 +102,6 @@ class Edition extends React.Component<Props, State> {
                   return (
                     <span key={index}>
                       <p>{date.toString()}</p>
-                      <p>{transfer.from_alias}</p>
                       <Operation hash={transfer.hash} />
                     </span>
                   );
