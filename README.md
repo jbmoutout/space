@@ -2,6 +2,8 @@
 
 Explore wallet
 
+Visit /:token_id for full screen
+
 ## Available Scripts
 
 In the project directory, you can run:
