@@ -26,7 +26,7 @@ class Artist extends React.Component<Props, State> {
   }
 
   async fetchArtist(): Promise<void> {
-    const bigmap_url = 'https://api.tzstats.com/explorer/bigmap/522/';
+    const bigmap_url = 'https://api.tzkt.io/v1/bigmaps/522/keys/';
     const artist_url = 'https://api.tzkt.io/v1/accounts/';
     try {
       const bigmap = await axios.get(bigmap_url + this.props.token_id);
