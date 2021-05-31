@@ -123,6 +123,7 @@ class App extends React.Component<Props, State> {
                               {artwork.symbol}#{artwork.token_id}
                             </p>
                           </a>
+                          {artwork.tags && <p>[{artwork.tags.join(', ')}]</p>}
                           <Edition token_id={artwork.token_id} contract_id={artwork.contract} />
                         </div>
                       );
