@@ -5,6 +5,12 @@
 
 .App {
   text-align: center;
+  display: flex;
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+  justify-content: center;
+  min-height: 100vh;
+  flex-wrap: wrap;
 }
 
 .App-logo {

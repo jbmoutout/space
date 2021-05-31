@@ -11,6 +11,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Switch>
+        <Route path="/artists">
+          <App />
+        </Route>
         <Route path="/:id">
           <FullScreen />
         </Route>

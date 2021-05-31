@@ -1,0 +1,28 @@
+{
+    "artists": [
+        {
+            "tz": "tz1LoAjXfVirPT1W9xCcPxdyF3h5fLXuY5Rr",
+            "local_name": "sara ludy"
+        },
+        {
+            "tz": "tz1R4bLnuw5uwWLrvFV3vajbw2eBXb6MQ3F3",
+            "local_name": "Nicolas Sassoon"
+        },
+        {
+            "tz": "tz1XUBwcwDpwZNiJYWb7VDzRHYpNYJk9yKxR",
+            "local_name": "wheresaddies"
+        },
+        {
+            "tz": "tz1MjZyBDq5hPNReKNf6YTVYBJv3jWHuBqph",
+            "local_name": "Sterling Crispin"
+        },
+        {
+            "tz": "tz1hqXAC9Avj3jQtHD1Wh9WL7YF9mRSD3qsq",
+            "local_name": "Lorna Mills"
+        }
+    ],
+    "burner": {
+        "tz": "tz1burnburnburnburnburnburnburjAYjjX",
+        "local_name": "🔥"
+    }
+}
