@@ -33,7 +33,7 @@ class FullScreen extends React.Component<Props, State> {
       const uri_parser = /ipfs:\/\/(.*)/.exec(artifact.artifact_uri);
       const uri = uri_parser ? 'https://ipfs.io/ipfs/' + uri_parser[1] : '';
       this.setState({ uri: uri ? uri : undefined });
-      document.getElementById('img')?.requestFullscreen();
+      // document.getElementById('img')?.requestFullscreen();
     } catch (error) {
       console.error(error);
     }
@@ -42,8 +42,16 @@ class FullScreen extends React.Component<Props, State> {
   render(): JSX.Element {
     const { uri } = this.state;
     return (
-      <div>
-        <img src={uri} width="100%" id="img" />
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100vh',
+          background: 'rgb(17, 17, 17)',
+        }}
+      >
+        <img src={uri} width="100%" id="img" style={{ maxWidth: '50vw' }} />
       </div>
     );
   }
