@@ -51,7 +51,15 @@ class FullScreen extends React.Component<Props, State> {
           background: 'rgb(17, 17, 17)',
         }}
       >
-        <img src={uri} width="100%" id="img" style={{ maxWidth: '50vw' }} />
+        <img
+          src={uri}
+          width="100%"
+          id="img"
+          //Not so clean
+          style={
+            window.location.pathname.substring(1) === '35595' ? { maxWidth: '50vw' } : { height: '100vh' }
+          }
+        />
       </div>
     );
   }
