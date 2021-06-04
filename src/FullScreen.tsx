@@ -41,6 +41,14 @@ class FullScreen extends React.Component<Props, State> {
 
   render(): JSX.Element {
     const { uri } = this.state;
+    let specialStyle = {};
+    const id = window.location.pathname.substring(1);
+    if (id === '35595') {
+      specialStyle = { maxWidth: '50vw' };
+    }
+    if (id === '97640') {
+      specialStyle = { height: '100vh' };
+    }
     return (
       <div
         style={{
@@ -56,9 +64,7 @@ class FullScreen extends React.Component<Props, State> {
           width="100%"
           id="img"
           //Not so clean
-          style={
-            window.location.pathname.substring(1) === '35595' ? { maxWidth: '50vw' } : { height: '100vh' }
-          }
+          style={specialStyle}
         />
       </div>
     );
