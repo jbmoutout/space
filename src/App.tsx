@@ -12,7 +12,7 @@ interface Artwork {
   creators: Array<string>;
   decimals: number;
   description: string;
-  formats: Array<unknown>;
+  formats: Array<{ mimeType: string }>;
   level: number;
   name: string;
   network: string;
@@ -41,7 +41,7 @@ class App extends React.Component<Props, State> {
   }
 
   componentDidMount(): void {
-    if (window.location.pathname === '/follow') {
+    if (window.location.pathname === '/artists') {
       this.setState({ multiple: true });
       data.artists.forEach((artist) => {
         this.fetchArtworks(artist.tz);
@@ -59,7 +59,7 @@ class App extends React.Component<Props, State> {
         {
           tz: tz,
           artworks: resp.data.balances.filter(
-            (a: Artwork) => a.symbol === 'OBJKT' && parseInt(a.balance) > 0,
+            (a: Artwork) => a.symbol === 'OBJKT' && parseInt(a.balance) > 0 && a.creators[0] !== tz,
           ),
         },
       ];
@@ -67,6 +67,11 @@ class App extends React.Component<Props, State> {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  uriParser(uri: string): string {
+    const uri_parser = /ipfs:\/\/(.*)/.exec(uri);
+    return uri_parser ? 'https://ipfs.io/ipfs/' + uri_parser[1] : '';
   }
 
   render(): JSX.Element {
@@ -98,8 +103,7 @@ class App extends React.Component<Props, State> {
                   )}
                   <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                     {l.artworks.map((artwork, index) => {
-                      const uri_parser = /ipfs:\/\/(.*)/.exec(artwork.artifact_uri);
-                      const img_uri = uri_parser ? 'https://ipfs.io/ipfs/' + uri_parser[1] : '';
+                      const mimeType = artwork.formats[0].mimeType;
                       return (
                         <div
                           key={index}
@@ -110,7 +114,21 @@ class App extends React.Component<Props, State> {
                             fontSize: multiple ? '12px' : '1em',
                           }}
                         >
-                          <img src={img_uri} width="100%" />
+                          {mimeType.includes('video') ? (
+                            <video width="100%" controls>
+                              <source src={this.uriParser(artwork.artifact_uri)} type={mimeType} />
+                            </video>
+                          ) : (
+                            <img
+                              src={this.uriParser(
+                                mimeType === 'application/x-directory'
+                                  ? artwork.thumbnail_uri
+                                  : artwork.artifact_uri,
+                              )}
+                              width="100%"
+                            />
+                          )}
+                          {mimeType === 'application/x-directory' && <p>🕹</p>}
                           <Artist token_id={artwork.token_id} />
                           <p>{artwork.name}</p>
                           <p>{artwork.description}</p>
