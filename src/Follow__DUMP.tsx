@@ -37,7 +37,9 @@ class Follow extends React.Component<Props, State> {
 
   async fetchArtworks(): Promise<void> {
     const url =
-      'https://api.better-call.dev/v1/account/mainnet/' + data.artists[0].tz + '/token_balances?last_id=';
+      'https://api.better-call.dev/v1/account/mainnet/' +
+      data.artists[0].tz +
+      '/token_balances?last_id=?size=50';
     await this.fetchTransactions(url);
     this.setState({ isLoading: false });
     // try {

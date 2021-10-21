@@ -26,7 +26,9 @@ class FullScreen extends React.Component<Props, State> {
   async fetchUri(): Promise<void> {
     const url_token = window.location.pathname.substring(1);
     const wallet_url =
-      'https://api.better-call.dev/v1/account/mainnet/' + process.env.REACT_APP_WALLET + '/token_balances';
+      'https://api.better-call.dev/v1/account/mainnet/' +
+      process.env.REACT_APP_WALLET +
+      '/token_balances?size=50';
     try {
       const resp = await axios.get(wallet_url);
       const artifact = resp.data.balances.filter((a: Artwork) => a.token_id.toString() === url_token)[0];

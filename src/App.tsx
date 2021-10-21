@@ -52,7 +52,7 @@ class App extends React.Component<Props, State> {
   }
 
   async fetchArtworks(tz: string): Promise<void> {
-    const wallet_url = 'https://api.better-call.dev/v1/account/mainnet/' + tz + '/token_balances';
+    const wallet_url = 'https://api.better-call.dev/v1/account/mainnet/' + tz + '/token_balances?size=50';
     try {
       const resp = await axios.get(wallet_url);
       const artworks = [
