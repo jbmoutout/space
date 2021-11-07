@@ -4,6 +4,7 @@ import Artist from './Artist';
 import Edition from './Edition';
 import axios from 'axios';
 import data from './data.json';
+import '@google/model-viewer';
 
 interface Artwork {
   artifact_uri: string;
@@ -104,6 +105,7 @@ class App extends React.Component<Props, State> {
                   <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                     {l.artworks.map((artwork, index) => {
                       const mimeType = artwork.formats[0].mimeType;
+                      console.log(mimeType);
                       return (
                         <div
                           key={index}
@@ -114,11 +116,23 @@ class App extends React.Component<Props, State> {
                             fontSize: multiple ? '12px' : '1em',
                           }}
                         >
-                          {mimeType.includes('video') ? (
+                          {mimeType.includes('video') && (
                             <video width="100%" controls>
                               <source src={this.uriParser(artwork.artifact_uri)} type={mimeType} />
                             </video>
-                          ) : (
+                          )}
+                          {mimeType.includes('application') && (
+                            <iframe src={this.uriParser(artwork.artifact_uri)} width="100%" />
+                          )}
+                          {mimeType.includes('model') && (
+                            <div style={{ width: '100%' }}>
+                              <model-viewer
+                                src={this.uriParser(artwork.artifact_uri)}
+                                camera-controls
+                              ></model-viewer>
+                            </div>
+                          )}
+                          {mimeType.includes('image') && (
                             <img
                               src={this.uriParser(
                                 mimeType === 'application/x-directory'
