@@ -48,7 +48,7 @@ class FullScreen extends React.Component<Props, State> {
     if (id === '35595') {
       specialStyle = { maxWidth: '50vw' };
     }
-    if (id === '97640') {
+    if (id === '97640' || id === '466963') {
       specialStyle = { height: '100vh' };
     }
     return (
