@@ -62,8 +62,10 @@ class App extends React.Component<Props, State> {
           artworks: resp.data.balances.filter(
             (a: Artwork) =>
               (a.symbol === 'OBJKT' || a.symbol === 'ITEM' || a.symbol === 'GENTK') &&
-              parseInt(a.balance) > 0 &&
-              a.creators[0] !== tz,
+              parseInt(a.balance) > 0,
+            // &&
+            // a.creators &&
+            // a.creators[0] !== tz,
           ),
         },
       ];
@@ -76,6 +78,17 @@ class App extends React.Component<Props, State> {
   uriParser(uri: string): string {
     const uri_parser = /ipfs:\/\/(.*)/.exec(uri);
     return uri_parser ? 'https://ipfs.io/ipfs/' + uri_parser[1] : '';
+  }
+
+  fxHashUriParser(uri: string): string {
+    const uri_parser = /ipfs:\/\/(.*)/.exec(uri);
+    if (uri_parser) {
+      const uri_1 = uri_parser[1].match(/^[^?]*/);
+      const uri_2 = uri_parser[1].match(/\?.*$/);
+      return 'https://gateway.fxhash2.xyz/ipfs/' + uri_1 + '/' + uri_2;
+    } else {
+      return '';
+    }
   }
 
   render(): JSX.Element {
@@ -107,8 +120,8 @@ class App extends React.Component<Props, State> {
                   )}
                   <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                     {l.artworks.map((artwork, index) => {
-                      const mimeType = artwork.formats[0].mimeType;
-                      console.log(mimeType);
+                      const mimeType =
+                        artwork.symbol === 'OBJKT' ? artwork.formats[0].mimeType : 'image/jpeg';
                       return (
                         <div
                           key={index}
@@ -137,16 +150,20 @@ class App extends React.Component<Props, State> {
                           )}
                           {mimeType.includes('image') && (
                             <img
-                              src={this.uriParser(
-                                mimeType === 'application/x-directory'
-                                  ? artwork.thumbnail_uri
-                                  : artwork.artifact_uri,
-                              )}
+                              src={
+                                artwork.symbol === 'GENTK'
+                                  ? this.fxHashUriParser(artwork.artifact_uri)
+                                  : this.uriParser(
+                                      mimeType === 'application/x-directory'
+                                        ? artwork.thumbnail_uri
+                                        : artwork.artifact_uri,
+                                    )
+                              }
                               width="100%"
                             />
                           )}
                           {mimeType === 'application/x-directory' && <p>🕹</p>}
-                          <Artist token_id={artwork.token_id} />
+                          {artwork.symbol === 'OBJKT' && <Artist token_id={artwork.token_id} />}
                           <p>{artwork.name}</p>
                           <p>{artwork.description}</p>
                           <a
@@ -159,7 +176,9 @@ class App extends React.Component<Props, State> {
                             </p>
                           </a>
                           {artwork.tags && <p>[{artwork.tags.join(', ')}]</p>}
-                          <Edition token_id={artwork.token_id} contract_id={artwork.contract} />
+                          {artwork.symbol === 'OBJKT' && (
+                            <Edition token_id={artwork.token_id} contract_id={artwork.contract} />
+                          )}
                         </div>
                       );
                     })}
