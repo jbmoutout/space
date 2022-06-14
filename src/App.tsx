@@ -60,7 +60,10 @@ class App extends React.Component<Props, State> {
         {
           tz: tz,
           artworks: resp.data.balances.filter(
-            (a: Artwork) => a.symbol === 'OBJKT' && parseInt(a.balance) > 0 && a.creators[0] !== tz,
+            (a: Artwork) =>
+              (a.symbol === 'OBJKT' || a.symbol === 'ITEM' || a.symbol === 'GENTK') &&
+              parseInt(a.balance) > 0 &&
+              a.creators[0] !== tz,
           ),
         },
       ];
